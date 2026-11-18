@@ -1,0 +1,16 @@
+[Unit]
+Description=ST DNS dispatcher (port 53: ST zone -> ST core, else classic SlowDNS)
+After=network-online.target slowdns.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/root/stdispatch -listen :53 -zone ns.tnerror.ai.id -st-backend 127.0.0.1:7300 -dns-backend 127.0.0.1:5353
+Restart=always
+RestartSec=3s
+LimitNOFILE=65535
+MemoryMax=192M
+StandardOutput=append:/root/stdispatch.log
+StandardError=append:/root/stdispatch.log
+
+[Install]
+WantedBy=multi-user.target

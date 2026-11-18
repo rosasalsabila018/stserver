@@ -1,0 +1,12 @@
+[Unit]
+Description=ST core (SlowDNS mode ST) :7300
+After=network.target dropbear-st.service
+Wants=dropbear-st.service
+
+[Service]
+ExecStart=/root/stserver-bin35 -listen :7300 -domain ns.tnerror.ai.id -upstream 127.0.0.1:22 -privkey-file /root/st-privkey.txt -smux-role client -delay 0
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
